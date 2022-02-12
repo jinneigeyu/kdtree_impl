@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/Node.hpp
+array
+-
+cstring
+-
+
+../include/kdtree.hpp
+Node.hpp
+../include/Node.hpp
+memory
+-
+vector
+-
+iostream
+-
+array
+-
+queue
+-
+algorithm
+-
+
+/home/jinyu/kdtree/src/main.cpp
+iostream
+-
+kdtree.hpp
+/home/jinyu/kdtree/src/kdtree.hpp
+random
+-
+
