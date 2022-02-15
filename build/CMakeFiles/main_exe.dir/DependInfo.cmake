@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/jinyu/kdtree/src/main.cpp" "/home/jinyu/kdtree/build/CMakeFiles/main_exe.dir/src/main.cpp.o"
+  "/home/jinyu/mygithub/kdtree_impl/kdtree/src/main.cpp" "/home/jinyu/mygithub/kdtree_impl/kdtree/build/CMakeFiles/main_exe.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

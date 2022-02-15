@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jinyu/kdtree
+CMAKE_SOURCE_DIR = /home/jinyu/mygithub/kdtree_impl/kdtree
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jinyu/kdtree/build
+CMAKE_BINARY_DIR = /home/jinyu/mygithub/kdtree_impl/kdtree/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/main_exe.dir
@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /home/jinyu/kdtree/build
 CMakeFiles/main_exe.dir/all:
 	$(MAKE) -f CMakeFiles/main_exe.dir/build.make CMakeFiles/main_exe.dir/depend
 	$(MAKE) -f CMakeFiles/main_exe.dir/build.make CMakeFiles/main_exe.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jinyu/kdtree/build/CMakeFiles --progress-num=1,2 "Built target main_exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/jinyu/mygithub/kdtree_impl/kdtree/build/CMakeFiles --progress-num=1,2 "Built target main_exe"
 .PHONY : CMakeFiles/main_exe.dir/all
 
 # Include target in all.
@@ -76,9 +76,9 @@ all: CMakeFiles/main_exe.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/main_exe.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jinyu/kdtree/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jinyu/mygithub/kdtree_impl/kdtree/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/main_exe.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jinyu/kdtree/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jinyu/mygithub/kdtree_impl/kdtree/build/CMakeFiles 0
 .PHONY : CMakeFiles/main_exe.dir/rule
 
 # Convenience name for target.

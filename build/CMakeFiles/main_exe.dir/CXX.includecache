@@ -27,12 +27,14 @@ queue
 -
 algorithm
 -
+stack
+-
 
-/home/jinyu/kdtree/src/main.cpp
+/home/jinyu/mygithub/kdtree_impl/kdtree/src/main.cpp
 iostream
 -
 kdtree.hpp
-/home/jinyu/kdtree/src/kdtree.hpp
+/home/jinyu/mygithub/kdtree_impl/kdtree/src/kdtree.hpp
 random
 -
 

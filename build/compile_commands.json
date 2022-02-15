@@ -1,7 +1,7 @@
 [
 {
-  "directory": "/home/jinyu/kdtree/build",
-  "command": "/usr/bin/x86_64-linux-gnu-g++-7   -I/home/jinyu/kdtree/include  -g   -o CMakeFiles/main_exe.dir/src/main.cpp.o -c /home/jinyu/kdtree/src/main.cpp",
-  "file": "/home/jinyu/kdtree/src/main.cpp"
+  "directory": "/home/jinyu/mygithub/kdtree_impl/kdtree/build",
+  "command": "/usr/bin/x86_64-linux-gnu-g++-7   -I/home/jinyu/mygithub/kdtree_impl/kdtree/include   -g -g   -o CMakeFiles/main_exe.dir/src/main.cpp.o -c /home/jinyu/mygithub/kdtree_impl/kdtree/src/main.cpp",
+  "file": "/home/jinyu/mygithub/kdtree_impl/kdtree/src/main.cpp"
 }
 ]

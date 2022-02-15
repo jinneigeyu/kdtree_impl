@@ -6,6 +6,7 @@
 #include <array>
 #include <queue>
 #include <algorithm>
+#include <stack>
 
 template <typename ElemType, std::size_t Dim>
 class KDtree
@@ -27,7 +28,7 @@ public:
 
     int SearchRadius(const Point &query, const double radius, const bool order, std::vector<Point> &points, std::vector<double> &dist2);
 
-    int SearchNN(const int knn, const bool order, std::vector<Point> &points);
+    int SearchNN(const Point &query, const int knn, const bool order, std::vector<std::pair<Point, double>> &points);
 
     static double distance_sq(const Point &p1, const Point &p2)
     {
@@ -38,6 +39,26 @@ public:
         }
         return sum;
     }
+
+private:
+    struct Dist2Point
+    {
+
+        Dist2Point() = default;
+        Dist2Point(typename KDtree<ElemType, Dim>::Point point, double distSq)
+        {
+            this->point = point;
+            this->distSq = distSq;
+        }
+
+        typename KDtree<ElemType, Dim>::Point point;
+        double distSq;
+
+        const bool operator<(const Dist2Point &r) const
+        {
+            return (distSq < r.distSq);
+        }
+    };
 
 private:
     Node<ElemType, Dim> *createNode(typename std::vector<Point>::iterator beg, typename std::vector<Point>::iterator end, size_t axis, size_t level);
@@ -51,9 +72,7 @@ private:
      */
     int radiusSearchRecurse(const Node<ElemType, Dim> *curNode, const Point &query, const double dist_sq_limit, std::vector<Point> &points, std::vector<double> &dist_sq_serched);
 
-    int nearestSearcher();
-
-    int iterNode(const Node<ElemType, Dim> *node, std::priority_queue<Point> &points);
+    int knnRecures(const Node<ElemType, Dim> *node, const Point &query, const int knn, std::priority_queue<Dist2Point> &pairs);
 
 private:
     Node<ElemType, Dim> *_root = nullptr;
@@ -88,9 +107,21 @@ int KDtree<ElemType, Dim>::SearchRadius(const Point &query, const double radius,
 };
 
 template <typename ElemType, std::size_t Dim>
-int KDtree<ElemType, Dim>::SearchNN(const int knn, const bool order, std::vector<Point> &points)
+int KDtree<ElemType, Dim>::SearchNN(const Point &query, const int knn, const bool order, std::vector<std::pair<Point, double>> &points)
 {
-    return true;
+    std::priority_queue<Dist2Point> pairs;
+    this->knnRecures(_root, query, knn, pairs);
+
+    points.resize(pairs.size());
+    int pos = pairs.size() - 1;
+    Dist2Point temp;
+    while (!pairs.empty())
+    {
+        temp = pairs.top();
+        points[pos] = (std::make_pair(temp.point, temp.distSq));
+        pairs.pop();
+        pos--;
+    }
 };
 
 #pragma endregion
@@ -162,7 +193,7 @@ int KDtree<ElemType, Dim>::radiusSearchRecurse(const Node<ElemType, Dim> *curNod
 
     ret = radiusSearchRecurse((dx <= 0.0 ? (curNode->left) : (curNode->right)), query, dist_sq_limit, points, dist_sq_serched);
     added_recs += ret;
-    if (ret >= 0 && std::abs(dx * dx) < dist_sq_limit)
+    if (ret >= 0 && std::abs(dx * dx) <= dist_sq_limit)
     {
 
         ret = radiusSearchRecurse((dx <= 0.0 ? (curNode->right) : (curNode->left)), query, dist_sq_limit, points, dist_sq_serched);
@@ -174,21 +205,54 @@ int KDtree<ElemType, Dim>::radiusSearchRecurse(const Node<ElemType, Dim> *curNod
     return added_recs;
 };
 
-/*
 template <typename ElemType, std::size_t Dim>
-int KDtree<ElemType, Dim>::iterNode(const Node<ElemType, Dim> *node, std::priority_queue<Point> &points)
+int KDtree<ElemType, Dim>::knnRecures(const Node<ElemType, Dim> *node, const Point &query, const int knn, std::priority_queue<Dist2Point> &pairs)
 {
-    if (node == nullptr)
+
+    Node<ElemType, Dim> *nearTree = nullptr;
+    Node<ElemType, Dim> *furtherTree = nullptr;
+    int axis = node->axis;
+    double dx = query[axis] - node->data[axis];
+    if (dx < 0)
     {
-        return false;
+        nearTree = node->left;
+        furtherTree = node->right;
+    }
+    else
+    {
+        nearTree = node->right;
+        furtherTree = node->left;
     }
 
-    points.push(std::move(t));
+    double dist_sq = this->distance_sq(query, node->data);
+    if (pairs.size() < knn)
+    {
+        pairs.emplace(Dist2Point(node->data, dist_sq));
+    }
+    else
+    {
+        auto front = pairs.top();
+        if (front.distSq > dist_sq)
+        {
+            pairs.pop();
+            pairs.emplace(Dist2Point(node->data, dist_sq));
+        }
+    }
 
-    iterNode(node->left, points);
-    iterNode(node->right, points);
+    if (nullptr != nearTree)
+    {
+        knnRecures(nearTree, query, knn, pairs);
+    }
+
+    if (nullptr != furtherTree)
+    {
+        if ((dx * dx) < pairs.top().distSq)
+        {
+            knnRecures(furtherTree, query, knn, pairs);
+        }
+    }
 
     return true;
-}
-*/
+};
+
 #pragma endregion
