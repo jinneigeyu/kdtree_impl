@@ -1,5 +1,5 @@
 #include <iostream>
-#include "kdtree.hpp"
+#include "Kdtree.hpp"
 #include <random>
 
 constexpr double MIN = 10;
@@ -18,7 +18,7 @@ int test_kdTreeRadiusSearch(KDtree<T, Dim> &tree, typename KDtree<T, Dim>::Point
     std::vector<double> dist2Searched;
     std::vector<typename KDtree<T, Dim>::Point> searchedPoints;
     typename KDtree<T, Dim>::Point q = query;
-    tree.SearchRadius(q, radius, true, searchedPoints, dist2Searched);
+    tree.SearchRadius(q, radius, searchedPoints, dist2Searched);
     return searchedPoints.size();
 };
 
@@ -46,7 +46,7 @@ template <typename T, std::size_t Dim>
 std::vector<std::pair<typename KDtree<T, Dim>::Point, double>> test_kdtreeKnn(KDtree<T, Dim> &tree, typename KDtree<T, Dim>::Point &query, const int knn)
 {
     std::vector<std::pair<typename KDtree<T, Dim>::Point, double>> nnResult;
-    tree.SearchNN(query, knn, true, nnResult);
+    tree.SearchNN(query, knn, nnResult);
     return nnResult;
 }
 
@@ -57,13 +57,19 @@ std::vector<std::pair<double, typename KDtree<T, Dim>::Point>> violent_Knn(const
     std::vector<DistPointPairType> dist_sq_vector;
     std::vector<typename KDtree<T, Dim>::Point> points_searched;
 
+    int n_index = knn;
+    if (points.size() < knn)
+    {
+        n_index = points.size();
+    }
+
     for (int i = 0; i < points.size(); i++)
     {
         double distance2 = KDtree<T, 3>::distance_sq(query, points[i]);
         dist_sq_vector.push_back(std::make_pair(distance2, points[i]));
     }
     auto beg = dist_sq_vector.begin();
-    auto nth = beg + knn;
+    auto nth = beg + n_index;
     auto end = dist_sq_vector.end();
     auto cmp = [](DistPointPairType p1, DistPointPairType p2)
     {
@@ -82,8 +88,8 @@ int main()
     std::random_device rd;
     std::default_random_engine eng(rd());
     std::uniform_int_distribution<int> distr(MIN, MAX);
-    int N = 640 * 480 / 2;
-    double radius = 20;
+    int N = 20 + 1;
+    double radius = 50;
     std::vector<KDtree<float, 3>::Point> points(N);
     for (int i = 0; i < points.size(); i++)
     {
@@ -103,7 +109,7 @@ int main()
 
     std::uniform_int_distribution<int> distrIndex(0, points.size());
     std::cout << "test radius search : " << std::endl;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 100; i++)
     {
         int index = distrIndex(eng);
         auto q = points[index];
