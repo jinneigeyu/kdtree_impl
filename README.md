@@ -7,8 +7,9 @@
 ### references
 * https://en.wikipedia.org/wiki/K-d_tree
 
-cd to [workspaceFolder]
-mkdir build
-cd build 
-cmake ..
-make
+### build :
+1. cd to [workspaceFolder]
+2. mkdir build
+3. cd build 
+4. cmake ..
+5. make
