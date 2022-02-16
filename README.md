@@ -6,3 +6,9 @@
 
 ### references
 * https://en.wikipedia.org/wiki/K-d_tree
+
+cd to [workspaceFolder]
+mkdir build
+cd build 
+cmake ..
+make
